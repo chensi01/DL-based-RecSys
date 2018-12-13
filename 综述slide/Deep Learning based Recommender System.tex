@@ -1,0 +1,903 @@
+%-- coding: UTF-8 --
+
+\documentclass{beamer}
+
+\mode<presentation> {
+\usetheme{Madrid}
+}
+\usepackage{CJK}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+
+\title[Deep Learning based Recommender System]{Deep Learning based Recommender System}
+\author{Chen Si}
+\institute[XIAMEN UNIVERSITY]
+{
+XIAMEN UNIVERSITY\\
+\medskip
+\textit{sichen@stu.xmu.edu.cn}
+}
+
+\date{\today}
+
+\begin{document}
+\begin{CJK}{GBK}{song}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Overview}
+\tableofcontents
+\end{frame}
+\AtBeginSection[]
+{\begin{frame}
+\frametitle{Outline}
+    \tableofcontents[currentsection,hideothersubsections]
+\end{frame}
+\addtocounter{framenumber}{-1}
+}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\section{ DEEP LEARNING BASED RECOMMENDATION}
+
+
+
+%\subsection{ Recommendation with Neural Building Blocks }
+%----------------------------------------------------------------------------------------
+%	MLP
+%----------------------------------------------------------------------------------------
+
+
+\subsection{ MLP based Recommendation }
+\begin{frame}
+\frametitle{ Multilayer Perceptron based Recommendation }
+\begin{enumerate}
+    \item What is Multilayer Perceptron(MLP)
+    \item Neural Extension of Traditional Recommendation Methods.
+    \item Feature Representation Learning with MLP
+    %\item Recommendation with Deep Structured Semantic Model
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{ What is Multilayer Perceptron(MLP) }
+\begin{itemize}
+    \item MLP is a feed-forward neural network with multiple hidden layers \par
+    %多层感知机层与层之间是全连接的（全连接的意思就是：上一层的任何一个神经元与下一层的所有神经元都有连接）
+    %一个单隐藏层的神经网络，如果神经元个数足够多，通过非线性的激活函数则可以拟合任意函数
+\end{itemize}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=8.3cm,height=4.5cm]{MLP_1}
+\end{figure}'
+$$y_l = \phi(W_2*\phi(W_1 * x))$$
+\end{frame}
+
+
+\begin{frame}
+\frametitle{ Neural Extension of Traditional Methods }
+\begin{itemize}
+    %\item add nonlinear transformation to existing RS approaches
+    %\item MLP can be intrepreted as stacked layers of nonlinear transformations, learning hierarchical feature representations.
+    %输入层（Input Layer）上面是嵌入层（Embedding Layer）;它是一个全连接层，用来将输入层的稀疏表示映射为一个密集向量（dense vector）。这些嵌入后的向量其实就可以看做是用户（项目）的潜在向量。然后我们将这些嵌入向量送入多层网络结构，最后得到预测的分数。NCF层的每一层可以被定制，用以发现用户-项目交互的某些潜在结构。最后一个隐层 X 的维度尺寸决定了模型的能力。
+     \item  Neural Collaborative Filtering (NCF) \par%用多层感知机来模拟用户和项目之间的交互
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=7cm,height=4cm]{MLP_2_NCF}
+\end{figure}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=5cm,height=0.8cm]{MLP_3_NCF_fun}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{ Feature Representation }
+\begin{itemize}
+    \item Deep Factorization Machine(DeepFM)
+    \begin{itemize}
+        \item FM: linear and pairwise {\color{red}low-order interactions} between features.
+        \item MLP leverages the non-linear activations and deep structure to model the {\color{red}high-order interactions}.
+        %\item wide and deep network: replaces the wide component with a neural interpretation of factorization machine.Compared to wide and deep model, Deep-FM does not require tedious feature engineering.
+        %\item capture both memorization and generalization.
+    \end{itemize}
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=7cm,height=4cm]{MLP_4_DFM}
+    %\includegraphics[width=4cm,height=1cm]{MLP_3_NCF_fun}
+\end{figure}
+$$\hat{r}_{ui} = \sigma(y_{FM}(x)+y_{MLP}(x)+bias)$$
+\end{frame}
+
+
+
+\begin{comment}
+\begin{frame}
+\frametitle{ Deep Structured Semantic Model }
+\begin{enumerate}
+    \item Deep Structured Semantic Model (DSSM)\par
+    DSSM projects different entities into a common low-dimensional space, and computes their similarities with cosine function. Basic DSSM is made up of MLP so we put it in this section. Note that, more advanced neural layers such as convolution and max-pooling layers can also be easily integrated into DSSM.
+\end{enumerate}
+\end{frame}
+\end{comment}
+
+
+%----------------------------------------------------------------------------------------
+%	Autoencoder
+%----------------------------------------------------------------------------------------
+\subsection{ Autoencoder based Recommendation }
+\begin{frame}
+\frametitle{ Autoencoder based Recommendation }
+\begin{itemize}
+    \item What is Autoencoder
+    \item Autoencoder based Collaborative Filtering.
+    \item Feature Representation Learning with Autoencoder
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{ What is Autoencoder }
+\begin{itemize}
+    \item  An autoencoder neural network is an {\color{red} unsupervised learning }algorithm, tring to learn a function $ h_{W,b}(x) \approx x$ .%数据压缩算法
+        \begin{figure}[h]
+    \centering
+    \includegraphics[width=4.3cm,height=4.5cm]{Autoencoder_1}
+\end{figure}
+    \begin{itemize}
+        \item  {\color{red}filling the blanks of the interaction matrix} directly in the reconstruction layer.
+        \item  using autoencoder to learn {\color{red}lower-dimensional feature representations} at the bottleneck layer;
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{ Autoencoder based Collaborative Filtering. }
+\begin{itemize}
+    \item AutoRec
+        \begin{itemize}
+        \item  takes user {\color{red}partial vectors} $r^{(u)}$ or item partial vectors $r^{(i)}$ as input, and aims to {\color{red}reconstruct} them in the output layer.
+        \item  Two variants: item-based AutoRec (I-AutoRec) and user-based AutoRec
+        \end{itemize}
+
+    %\item the reconstruction is:$h(r^{(i)},\theta) = f(W\times g(V\times r^{(i)} + \mu)+b)$ ,where $f(\times)$  and $g(\times)$  are the activation functions, parameter $\theta = {W,V,\mu,b}$ objective function of I-AutoRec is formulated as follows:
+
+\end{itemize}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=5cm,height=3cm]{Autoencoder_2}
+\end{figure}
+$$argmin_{\theta} = \sum_{i=1}^{N} \left \|  r^i -h(r^i;\theta) \right \|_{O}^2 + \lambda \times reg  $$
+here $\left \| \cdot \right \|_{O}^2$ means that it only considers observed ratings
+\end{frame}
+
+\begin{frame}
+\frametitle{ Feature Representation Learning with Autoencoder }
+\begin{itemize}
+    \item general framework to build hybrid collaborative models.%for unifying deep learning approaches with collaborative filtering model.utilize deep feature learning techniques to build hybrid collaborative models.
+\end{itemize}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=8.3cm,height=4.5cm]{Autoencoder_3}
+\end{figure}
+$$arg_{U,V}min\ l(R,U,V)+\beta(U^2+V^2)+\gamma L(X,U)+\delta L(Y,V)$$
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	Convolutional Neural Networks
+%----------------------------------------------------------------------------------------
+\subsection{ CNN based Recommendation }
+\begin{frame}
+\frametitle{ Convolutional Neural Networks based Recommendation }
+\begin{itemize}
+    \item What is Convolutional Neural Networks(CNN)
+    \item Feature Representation Learning with CNNs.
+    \item CNNs based Collaborative filtering.
+    \item Graph CNNs for Recommendation.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{ What is Convolutional Neural Networks(CNN) }
+\begin{itemize}
+    \item  a special kind of feed-forward neural network with convolution layers and pooling operations.
+        %卷积神经网络默认输入是图像，可以让我们把特定的性质编码入网络结构，使是我们的前馈函数更加有效率，并减少了大量参数。
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=5.3cm,height=2.2cm]{CNN_1} \ \ \ \
+            \includegraphics[width=5.3cm,height=2.2cm]{CNN_2}
+        \end{figure}
+    \begin{itemize}
+        \item 默认输入是图像，把特定的性质编码入网络结构，使前馈函数更加有效率，并减少了大量参数。
+        \item CNNs are powerful in processing unstructured multimedia data with convolution and pool operations.
+        %\item neurons arranged in 3 dimensions: width, height, depth. ($32 \times 32 \times 3(rgb)$.)
+        %\item the neurons in a layer will only be connected to a small region of the layer before it, instead of all of the neurons in a fully-connected manner.
+        %\item the final output layer would of the ConvNet architecture we will reduce the full image into a single vector of class scores
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\frametitle{ Feature Representation Learning with CNNs }
+\begin{itemize}
+    \item  Most of the CNNs based recommendation models utilize CNNs for {\color{red}feature extraction}.%CNNs are powerful in processing unstructured multimedia data with convolution and pool operations.
+    \begin{itemize}
+        \item Image Feature Extraction.
+        \item Text Feature Extraction
+            \begin{itemize}
+            \item model user behaviors and item properties from review texts
+            \item alleviates the sparsity problem and enhances the model interpretability
+            \end{itemize}
+        \item Audio and Video Feature Extraction.
+            \begin{itemize}
+            \item content based model can alleviate the cold start problem (music has not been consumed)
+            \end{itemize}
+
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\frametitle{ CNNs based Collaborative filtering }
+\begin{itemize}
+    \item ConvNCF
+        \begin{itemize}
+            \item use {\color{red}outer product} instead of dot product to model the user item interaction patterns.
+            \item CNNs are applied over the result of outer product and could capture the high-order correlations among embeddings dimensions.
+        \end{itemize}
+
+    %特征向量 p 和 q 的每一维（每一个特征的角度、语义）都是平等的，而且这样的操作每一维都是独立的计算乘积最后求和。作者指出，特征向量的每一个维度都有特定的语义，表征了对象的某个方面的信息，在使用时应该有所侧重的。此外，当前对于特征映射函数 f 的改进，如从数据中用 MLP 等其他抽象形式来学习，也显示出能取得更出色的效果。处理方式主要有拼接和按位相乘。尽管 MLP 理论上能够拟合任意复杂的连续函数 f，但这样的做法仍然没有对特征向量的每个不同的维度进行限制
+    %意在模型中融合一种特征维度之间的关系。具体而言，就是通过特征向量的外积，得到交互矩阵（Interaction Map）E∈RK×K，K 是特征向量维数。如此构建的交互矩阵，体现出了每个维度下特征之间的关系，而其中也包含了传统 CF 的内积信息（E 中的主对角线求和即为向量内积），最终能刻画特征维度之间的高阶关系。此外，在特征矩阵上引入 CNN 处理方式，也比全连接 MLP 更容易泛化、也更容易建立更深的网络。
+\end{itemize}
+        \begin{figure}[h]
+    \centering
+    \includegraphics[width=6.3cm,height=5.2cm]{CNN_3}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{ CNNs based Collaborative filtering }
+\begin{itemize}
+    \item ConvNCF
+        \begin{itemize}
+            \item 外积：交互矩阵融合了每个维度下特征之间的关系（传统 CF ：主对角线求和），能刻画特征维度之间的高阶关系。
+            \item 卷积：后一层的每一个元素都是由前一层的 4 个元素计算得来的，可以认为是一个 4 阶关系的刻画。直到最后的输出层，降到 $1 \times 1$ 后，即包含了特征每一个维度之间的交互信息。CNN 比 MLP 更容易泛化和建立更深的网络。
+        \end{itemize}
+
+%本文的贡献主要有：
+%提出了一种基于外积的 NCF 模型，ONCF，刻画特征向量的每个维度的相互关系；
+%在特征交互的矩阵上采用 CNN，从局部和全局，对每个维度进行高阶的交互；
+%通过扩展实验，验证了 ONCF 模型的理论正确和有效性；
+%第一个使用 CNN 对特征映射函数 f 进行建模。
+\end{itemize}
+        \begin{figure}[h]
+    \centering
+    \includegraphics[width=11.3cm,height=3.2cm]{CNN_4}
+\end{figure}
+\end{frame}
+
+
+\begin{comment}
+\begin{frame}
+\frametitle{ CNNs based Collaborative filtering }
+\begin{itemize}
+    \item ConvNCF \par
+%对于外积的作用，作者的对比试验 MLP 中采用的是向量的拼接、GMF、JRL 是向量点乘，在训练过程中，ConvNCF 始终要优于其他方法；对于 CNN 的作用，作者也使用了一个 MLP 对特征交互矩阵 E 进行抽象，尽管使用的 MLP 参数规模要巨大得多。而实验结果显示，MLP 即便是有更大的参数规模，性能还是比不上 ConvNCF。
+\end{itemize}
+        \begin{figure}[h]
+    \centering
+    \includegraphics[width=7cm,height=7cm]{CNN_5}
+\end{figure}
+\end{frame}
+\end{comment}
+
+
+\begin{frame}
+\frametitle{ Graph CNNs for Recommendation. }
+\begin{itemize}
+    \item Interactions in recommendation area can also be viewed as {\color{red}bipartite graph},thus the recommendation problem can be considered as a {\color{red}link prediction} task with graph CNNs.
+    %传统ConvNet在Euclidean data上的卷积操作，是完全对称的工整的。一个3*3的Conv filter，就是一个九宫格，要求每个pixel都有8个工整的neighbor（抛去边沿效应）。社交网络，航路网，蛋白质分子联系网，等等等等。注意，这些网络常常是不对称的，即每个节点的degree （neighbor数量）是不确定的，数据是不工整的。
+    %对于graph，无法简单地重复地操作convolution，因为数据的不对称性，滑窗位置的不可重复性。所以，对graph做CNN操作，首先要将不是euclidean的spatial域（顶点域），转换到spectral域（频域）。期待在频域中，非euclidean的事物就变得euclidean了。
+\end{itemize}
+        \begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm,height=6.5cm]{CNN_6}
+\end{figure}
+\end{frame}
+
+
+
+%----------------------------------------------------------------------------------------
+%	Recurrent Neural Networks
+%----------------------------------------------------------------------------------------
+\subsection{ RNN based Recommendation }
+
+\begin{frame}
+\frametitle{ Recurrent Neural Networks based Recommendation }
+\begin{itemize}
+    \item What is Recurrent Neural Networks(RNN)
+    \item Session-based Recommendation without User Identifier
+    \item Sequential Recommendation with User Identifier
+    \item Feature Representation Learning with RNNs
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{ What is Recurrent Neural Networks(RNN) }
+\begin{itemize}
+    \item RNN is suitable for modelling {\color{red}sequential data}. Unlike feedforward neural network, there are {\color{red}loops and memories} in RNN to remember former computations.
+    %Variants such as Long Short Term Memory (LSTM) and Gated Recurrent Unit (GRU) network are o?en deployed in practice to overcome the vanishing gradient problem.
+    \item RNN 的结构不同于 MLP ，输入层与来自序列中上一元素隐层的信号共同作用到当前的隐藏层
+    %\item temporal dynamics of interactions and sequential patterns of user behaviours
+        %\item side information with sequential signals, such as texts, audio, etc.
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=10cm,height=3.5cm]{RNN_1}
+    \end{figure}
+
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+\frametitle{ Session-based Recommendation without User Identifier }
+\begin{itemize}
+    \item GRU4Rec
+    \begin{enumerate}
+        \item 输入:用户的行为序列: $[x_1,x_2,x_3,..,x_N]$(1-of-N encoding,或者再过一个Embedding层)
+        \item 过若干层的GRU(核心的序列化建模)
+        \item Feedforward网络转换
+        \item 对下一个目标$x_{N+1}$进行预测
+    \end{enumerate}
+\end{itemize}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=4.5cm,height=3cm]{RNN_2}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{ Sequential Recommendation with User Identifier }
+\begin{itemize}
+    \item Recurrent Recommender Network (RRN)
+    \begin{itemize}
+        \item modelling the seasonal evolution of items and changes of user preferences over time
+        \item uses two LSTM networks to model {\color{red}dynamic user state} $u_{ut}$ and item state $v_{it}$ .
+        \item incorporates stationary latent attributes such as user {\color{red}long-term interests} and item static features: $u_u$ and $v_i$.
+    \end{itemize}
+\end{itemize}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=4.5cm,height=3.5cm]{RNN_3}
+    \end{figure}
+    $$\hat{r}_{ui|t} = f(u_{ut},v_{it},u_{u},v_{i})$$
+\end{frame}
+
+
+\begin{frame}
+\frametitle{ Feature Representation Learning with RNNs }
+\begin{itemize}
+    \item For side information with sequential patterns
+    \begin{itemize}
+        \item learn representations of evolution and {\color{red}co-evolution of user and item features}.
+        \item encode the {\color{red}text sequences} into latent factor model.
+        \item learn more expressive aggregation for user browsing history
+        \item predicting ratings as well as generating textual tips for users simultaneously
+        \item two sub-networks to modelling user static features (with MLP) and user temporal features (with RNNs).
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+%----------------------------------------------------------------------------------------
+%	Restricted Boltzmann Machine
+%----------------------------------------------------------------------------------------
+\subsection{ RBM based Recommendation }
+\begin{frame}
+\frametitle{ Restricted Boltzmann Machine based Recommendation }
+\begin{itemize}
+    \item What is Restricted Boltzmann Machine(RBM)
+    \item Restricted Boltzmann Machine based Recommendation
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{ What is Restricted Boltzmann Machine(RBM) }
+\begin{itemize}
+    \item  RBM is a two layer neural network consisting of a visible layer and a hidden layer.
+    \begin{itemize}
+    \item 限制在同一层的神经元之间不会相互连接，而不在同一层的神经元之间会相互连接，连接是双向的以及对称的。这意味着在网络进行训练以及使用时信息会在两个方向上流动，而且两个方向上的权值是相同的。
+    \item 可见变量和隐藏变量都是二元变量，亦即其状态取{0,1}
+\end{itemize}
+\end{itemize}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=9cm,height=4.5cm]{RBM_1}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{ Restricted Boltzmann Machine based Recommendation }
+\begin{itemize}
+    \item RBM-CF
+    \begin{itemize}
+        \item the {\color{red}first} recommendation model that built on neural networks.
+        \item user/item-based RBM-CF :given user’s/item's rating is clamped on the visible layer.
+        \item 假设有m个电影, 则使用m个softmax单元来作为可见单元来构造RBM.如果一个用户没有对第j个电影评分, 则该用户的RBM中不存在第j个softmax单元.  %每个用户使用不同的RBM, 这些不同的RBM仅仅是可见单元不同, 因为不同的用户会对不同的电影打分, 所有的这些RBM的可见单元共用相同的偏置以及和隐藏单元的连接权重W.
+        %使用softmax来对用户的评分进行建模, softmax是一种组合可见单元, 包含k个二元单元, 第i个二元单元当且只当用户对该电影打分为i 时才会置为1.
+
+
+    \end{itemize}
+\end{itemize}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=4cm,height=4cm]{RBM_2}\includegraphics[width=8cm,height=4cm]{RBM_3}
+    \end{figure}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	Neural Attention
+%----------------------------------------------------------------------------------------
+\subsection{ Neural Attention based Recommendation }
+\begin{frame}
+\frametitle{ Neural Attention based Recommendation }
+\begin{itemize}
+    \item What is Neural Attention.
+    \item Recommendation with Vanilla Attention
+    \item Recommendation with Co-Attention
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{ What is Neural Attention }
+\begin{itemize}
+    \item Attention mechanism is motivated by {\color{red}human visual attention}. %Computer Vision and Natural Language Processing domains.also been an emerging trend in deep recommender system research.%注意力模型的命名方式看，很明显其借鉴了人类的注意力机制，因此，我们首先简单介绍人类视觉的选择性注意力机制。人类视觉通过快速扫描全局图像，获得需要重点关注的目标区域，也就是一般所说的注意力焦点，而后对这一区域投入更多注意力资源.红色区域表明视觉系统更关注的目标，很明显对于图1所示的场景，人们会把注意力更多投入到人的脸部，文本的标题以及文章首句等位置。注意力机制从本质上讲和人类的选择性视觉注意力机制类似，
+    \item 核心目标:从众多信息中选择出对当前任务目标更{\color{red}关键的信息}。
+
+    %\item Attentional Models (AM) are differentiable neural architectures that operate based on soft content addressing over an input sequence (or image).
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=6.5cm,height=4.5cm]{AM_1}
+    \end{figure}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{ What is Neural Attention }
+\begin{itemize}
+    \item attention model learns to attend to the input with {\color{red}attention scores} (the heart of neural attention models).
+\end{itemize}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=6.5cm,height=4.5cm]{AM_1_2}
+    \end{figure}
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\frametitle{ Recommendation with Vanilla Attention  }
+\begin{itemize}
+    \item 基于记忆优先级的短序列推荐
+
+    \begin{itemize}
+        \item 对session内前n-1个全局商品用attention建模得到一个全局表达，并输入MLP%然后将最后一个商品直接输入多层感知机建模得到最后一个商品的表达。%，最后我们将这两个表达组合起来，用softmax 来预测未来可能会点击的n 个商品。
+
+    \end{itemize}
+    %\item RNN/CNN +Attention mechanism:capture the sequential property(select informative words in a given window size ) , modelling session intents
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=6cm,height=6cm]{AM_5}
+    \end{figure}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{ Recommendation with Vanilla Attention }
+\begin{itemize}
+    \item Attentive Collaborative Filtering(ACF)
+    \begin{itemize}
+        %\item address the {\color{red}implicit feedback} in multimedia recommendation.
+        \item select items from {\color{red}implicit} that are representative to user preferences and then aggregate them to characterize users.
+    \end{itemize}
+    \begin{columns}
+        \column{.6\textwidth}
+                \begin{figure}[h]
+            \centering
+            \includegraphics[width=6.5cm,height=6.5cm]{AM_2}
+        \end{figure}
+
+        \column{.4\textwidth}
+            \begin{itemize}
+            \item item-level attention
+            $$u_i + \sum_{l\in R(i)}\alpha(i,l)p_l$$
+
+            \item component-level attention
+            $$\bar{x}_l = \sum_{m=1}^{|\left\{x_{l*}\right\}|}\beta(i,l,m) \cdot x_{lm}$$
+            \end{itemize}
+    \end{columns}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{ Recommendation with Vanilla Attention }
+\begin{itemize}
+    \item Attentive Collaborative Filtering(ACF)
+        \begin{itemize}
+        \item Attention Visualization
+    \end{itemize}
+\end{itemize}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=10cm,height=6cm]{AM_3}
+    \end{figure}
+\end{frame}
+\begin{comment}
+\begin{frame}
+\frametitle{ Recommendation with Vanilla Attention  }
+\begin{itemize}
+    \item Attentive Contextual Denoising Autoencoder for Rec (ACDA)
+     \begin{itemize}
+        \item movie context:genre such as horror, drama, thriller, comedy etc. Location and time-of-day.
+        \item padding!!!!!!!!!!!!!!!!!!!!!!
+    \end{itemize}
+
+\end{itemize}
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=10cm,height=6cm]{AM_4}
+    \end{figure}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\frametitle{ Recommendation with Co-Attention }
+\begin{itemize}
+    %注意力机制是利用特定的背景信息指导与之相关的内容的理解。Co-Attention（互注意力）机制则是将两种关联的内容分别作为对方的背景信息，相互指导对方的理解过程。
+    %图像问答即根据图像内容回答相关问题。理解问题\理解图像\答案包含在图像的哪一部分
+    %Co-Attention机制被用做 VQA 应用场景中问题文本和图像的理解：图像中每个子区域的重要性是不同的，同时文本中的每个词也是不同。两者相互关联，且子部分的重要性都具有差异性。
+
+    \item review based recommendation system:select information reviews via co-learning from both user and item reviews
+    \item  co-attention based hashtag recommendation model that integrates both visual and textual information
+\end{itemize}
+
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=10cm,height=4.5cm]{AM_6}
+    \end{figure}
+
+\end{frame}
+\end{comment}
+%----------------------------------------------------------------------------------------
+%	Neural AutoRegressive
+%----------------------------------------------------------------------------------------
+\subsection{ Neural AutoRegressive based Recommendation }
+
+\begin{comment}
+\begin{frame}
+\frametitle{ What is Neural Autoregressive Distribution Estimation (NADE) }
+\begin{itemize}
+    \item Neural Autoregressive Distribution Estimation (NADE)is an {\color{red}unsupervised} neural network built atop autoregressive model and feedforward neural networks.
+    \item tractable的分布估计器，它是RBM的理想的替代品%tractable and efficient estimator for modelling data distribution and densities(v.s. RBM ).
+\end{itemize}
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=5cm,height=4.5cm]{NDAE_2}
+    \end{figure}
+
+\end{frame}
+\end{comment}
+
+\begin{frame}
+\frametitle{ Neural AutoRegressive based Recommendation }
+\begin{itemize}
+    \item tractable的分布估计器，它是RBM的理想的替代品%tractable and efficient estimator for modelling data distribution and densities(v.s. RBM ).
+    \item NADE based collaborative filtering model (CF-NADE)
+    \begin{itemize}
+        %\item NADE is a tractable distribution estimator which provides a desirable alternative to RBM. %RBM is not tractable, thus we usually use the Contrastive Divergence algorithm to approximate the log-likelihood gradient on the parameters [81], which also limits the usage of RBM-CF.
+        \item models the distribution of user ratings.
+        \item 有4部电影：m1（评分为4），m2（评分为2），m3（评分为3），m4（评分为5）。 CF-NADE利用链式法则得到的评分向量r的联合概率
+        
+    \end{itemize}
+
+\end{itemize}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=6.2cm,height=3.7cm]{NDAE_2}
+    \end{figure}
+    $$p(r) = \Sigma_{i=1}^{4}p(r_{m_i} | r_{m_{<i}})$$
+\end{frame}
+%----------------------------------------------------------------------------------------
+%	Deep Reinforcement Learning
+%----------------------------------------------------------------------------------------
+\subsection{ Deep Reinforcement Learning for Recommendation }
+\begin{frame}
+\frametitle{ Deep Reinforcement Learning for Recommendation }
+\begin{itemize}
+    \item What is Deep Reinforcement Learning (DRL)
+    \item Deep Reinforcement Learning for Recommendation
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{ What is Deep Reinforcement Learning (DRL)}
+\begin{itemize}
+    \item Reinforcement Learning:Learn to make good {\color{red}sequences of decisions}
+    \begin{itemize}
+        \item Repeated Interactions with World
+        \item Reward for Sequence of Decisions
+        \item Repeated Interactions with World
+    \end{itemize}
+    \item trial-and-error paradigm
+    \item components: agents, environments, states, actions and rewards.%The whole framework mainly consists of the following
+\end{itemize}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=8.6cm,height=3.5cm]{RL_1}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{ Deep Reinforcement Learning for Recommendation }
+\begin{itemize}
+    \item {\color{red}recommender agent (RA) interacts with environment E (or users)} by sequentially choosing recommendation items over a sequence of time steps, so as to maximize its cumulative reward.
+\end{itemize}
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=9cm,height=3.5cm]{RL_3}
+    \end{figure}
+\end{frame}
+
+\begin{comment}
+\begin{frame}
+\frametitle{ Deep Reinforcement Learning for Recommendation }
+\begin{itemize}
+    \item
+\end{itemize}
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=5cm,height=4.5cm]{RL_2}
+    \end{figure}
+\end{frame}
+\end{comment}
+%----------------------------------------------------------------------------------------
+%	Adversarial Network
+%----------------------------------------------------------------------------------------
+\subsection{ GAN based Recommendation }
+\begin{frame}
+\frametitle{ Adversarial Network based Recommendation }
+\begin{itemize}
+    \item What is Adversarial Network (AN)
+    \item Adversarial Network based Recommendation
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{ What is Adversarial Network (AN)}
+\begin{itemize}
+    \item Adversarial Networks (AN) is a generative neural network which consists of a discriminator and a generator.
+    \item They trained simultaneously by competing with each other in a min-max game framework.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{ Adversarial Network based Recommendation }
+\begin{itemize}
+    \item IRGAN
+    \begin{itemize}
+        \item 在信息检索上有两个思维方式，即生成式检索和判别式检索:
+        \item {\color{red}Generative retrieval} assumes that there is an underlying generative process between documents and queries, and retrieval tasks can be achieved by generating relevant document given a query.
+        \item {\color{red}Discriminative retrieval} learns to predict the relevance score given labelled relevant query-document pairs.
+        \item  minimax game : generative retrieval aims to generate relevant documents similar to ground truth to fool the discriminative retrieval model.%The aim of IRGAN is to combine these two thoughts into a unified model, and make them to play a like generator and discriminator in GAN. ?e
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+
+
+%------------------------------------------------
+\section{ Summary}
+%------------------------------------------------
+%\subsection{ Summary }
+%OVERVIEW OF RECOMMENDER SYSTEMS AND DEEP LEARNING
+%Why Deep Neural Networks for Recommendation
+
+\begin{frame}
+\frametitle{ Why Deep Neural Networks for Recommendation }
+
+
+    \begin{itemize}
+        \item Nonlinear Transformation
+        \begin{itemize}
+        \item 捕获非线性和非平凡的用户-物品关系
+        \end{itemize}
+
+        \item Representation Learning
+            \begin{itemize}
+            \item 捕获数据本身的复杂联系(上下文，文本和视觉信息)
+            \end{itemize}
+        \item Sequence Modelling
+        \item Flexibility
+    \end{itemize}
+
+\end{frame}
+\begin{comment}
+
+\begin{frame}
+\frametitle{ Why Deep Neural Networks for Recommendation }
+One of the most  of neural architectures is that they are:
+\begin{itemize}
+    \item attractive properties
+    \begin{itemize}
+        \item end-to-end differential
+        \item provide suitable inductive biases catered to the input data type.
+    \end{itemize}
+
+
+    \item The strengths of deep learning based rec models
+
+    \begin{itemize}
+        \item Nonlinear Transformation.
+        \item Representation Learning.
+        \item Sequence Modelling.
+        \item Flexibility.
+    \end{itemize}
+
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{ Potential Limitations }
+\begin{itemize}
+    \item Interpretability.
+    \item Data Requirement.
+    \item Extensive Hyperparameter Tuning.
+\end{itemize}
+\end{frame}
+
+
+\subsection{ FUTURE RESEARCH DIRECTIONS AND OPEN ISSUES }
+
+\begin{frame}
+\frametitle{FUTURE RESEARCH DIRECTIONS AND OPEN ISSUES}
+%Whilst existing works have established a solid foundation for deep recommender systems research, this section outlines several promising prospective research directions. We also elaborate on several open issues, which we believe is critical to the present state of the field.
+\begin{itemize}
+    \item Joint Representation Learning from User and Item Content Information
+    \item Explainable Recommendation with Deep Learning
+    \item Going Deeper for Recommendation.
+    \item Machine Reasoning for Recommendation.
+    \item Cross Domain Recommendation with Deep Neural Networks.
+    \item Deep Multi-Task Learning for Recommendation.
+    \item Scalability of Deep Neural Networks for Recommendation.
+    \item The Field Needs ?Better, More Unified and Harder Evaluation
+\end{itemize}
+\end{frame}
+
+
+
+%----------------------------------------------------------------------------------------
+%	
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{}
+\begin{itemize}
+    \item What is
+    \item
+    \item
+    \item
+\end{itemize}
+\end{frame}
+
+
+\subsection{ Recommendation with Deep Hybrid Models. }
+
+
+\begin{frame}
+\frametitle{ Deep Hybrid Models for Recommendation }
+many neural building blocks can be intergrated to formalize more powerful and expressive models. Despite the abundant possible ways of combination
+% we suggest that the hybrid model should be reasonably and carefully designed for the speci?c tasks. Here, we summarize the existing models that has been proven to be e?ective in some application ?elds.
+\begin{itemize}
+    \item CNNs and Autoencoder:combines CNNs with autoencoder for images feature extraction.
+    \item CNNs and RNNs: a CNNs and RNNs based hybrid model for hashtag recommendation. Given a tweet with corresponding images, the authors utilized CNNs to extract features from images and LSTM to learn
+text features from tweets. Meanwhile, the authors proposed a co-a?ention mechanism to model the correlation in?uences and balance the contribution of texts and images. Ebsesu et al. [38] presented a neural citation network whic
+    \item RNNs and Autoencoder: replaces feedforward neural layers with RNNs, which enables CRAE to capture the sequential information of item content information
+    \item RNNs with DRL: combining supervised deep reinforcement learning wth RNNs for treatment recommendation. ?e framework can learn the prescription policy from the indicator signal and evaluation signal.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Architectural paradigms }
+%The typical defining essence of deep learning is that it learns deep representations, i.e., learning multiple levels of representations and abstractions from data.
+%For practical reasons, we consider any neural differentiable architecture as deep learning as long as it optimizes a differentiable objective function using a variant of stochastic gradient descent (SGD).
+%In this subsection, we clarify a diverse array of architectural paradigms that are closely related to this survey.
+\begin{itemize}
+    \item Multilayer Perceptron (MLP)
+    \item Autoencoder (AE)
+    \item Convolutional Neural Network (CNN)
+    \item Recurrent Neural Network (RNN)
+    \item Restricted Boltzmann Machine (RBM)
+    \item Neural Autoregressive Distribution Estimation (NADE)
+    \item Adversarial Networks (AN)
+    \item Attentional Models (AM)
+    \item Deep Reinforcement Learning(DRL)
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{ Neural AutoRegressive based Recommendation }
+\begin{itemize}
+    \item What is Neural Autoregressive Distribution Estimation (NADE)
+    \item Neural AutoRegressive based Recommendation
+\end{itemize}
+\end{frame}
+\end{comment}
+
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\Huge{\centerline{The End}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+\end{CJK}
+\end{document}
